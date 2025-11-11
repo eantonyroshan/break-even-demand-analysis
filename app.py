@@ -8,7 +8,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 
 st.set_page_config(page_title="Break-even & Demand Forecast Tool", layout="wide")
 
-st.title("📊 Break-even Analysis & 🧠 AI-based Demand Forecasting Tool")
+st.title("Break-even Analysis & AI-based Demand Forecasting Tool - IE Project")
 st.markdown("Upload your data files below to perform break-even and demand analysis.")
 
 # --- SIDEBAR ---
