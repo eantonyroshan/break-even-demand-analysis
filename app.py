@@ -88,24 +88,6 @@ if demand_file is not None:
 
             st.write(f"**R² Score:** {r2:.3f}")
             st.write(f"**RMSE:** {rmse:.3f}")
-            # ----- Plot actual vs predicted demand -----
-fig, ax = plt.subplots(figsize=(7, 4))
-ax.scatter(y_test, y_pred, color='lightblue')
-ax.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
-ax.set_xlabel("Actual Demand")
-ax.set_ylabel("Predicted Demand")
-ax.set_title("AI Model: Actual vs Predicted Demand")
-st.pyplot(fig)
-
-# ----- Find which product has highest predicted demand -----
-if 'product' in X.columns:
-    predicted_df = X.copy()
-    predicted_df['Predicted_Demand'] = model.predict(X)
-    top_products = predicted_df.groupby('product')['Predicted_Demand'].mean().sort_values(ascending=False).head(5)
-    st.subheader("🔥 Top Products by Predicted Demand")
-    st.write(top_products)
-else:
-    st.info("Column 'product' not found in dataset — skipping product demand analysis.")
             st.subheader("📊 Product Demand Insights")
 
 # Check if necessary columns exist
