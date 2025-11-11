@@ -31,8 +31,8 @@ if break_even_file is not None:
         st.dataframe(df)
 
         fixed_cost = df['Fixed_Cost'].iloc[0]
-        variable_cost = df['Variable_Cost_per_Unit'].iloc[0]
-        selling_price = df['Selling_Price_per_Unit'].iloc[0]
+        variable_cost = df['Variable_Cost'].iloc[0]
+        selling_price = df['Selling_Price'].iloc[0]
 
         # Slider to adjust the maximum sales quantity
         max_qty = st.slider("Select Maximum Selling Quantity Range", min_value=500, max_value=10000, value=2000, step=100)
