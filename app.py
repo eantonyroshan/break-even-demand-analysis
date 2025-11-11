@@ -88,6 +88,27 @@ if demand_file is not None:
 
             st.write(f"**R² Score:** {r2:.3f}")
             st.write(f"**RMSE:** {rmse:.3f}")
+                    # ====== Product Demand Insights Section ======
+        st.subheader("📊 Product Demand Insights")
+
+        if 'Product Name' in demand_df.columns and 'Quantity' in demand_df.columns:
+            demand_summary = (
+                demand_df.groupby('Product Name')['Quantity']
+                .sum()
+                .sort_values(ascending=False)
+                .head(5)
+                .reset_index()
+            )
+
+            st.write("### 🔝 Top 5 High-Demand Products")
+            st.dataframe(demand_summary)
+
+            top_product = demand_summary.iloc[0]['Product Name']
+            top_demand = demand_summary.iloc[0]['Quantity']
+
+            st.success(f"🏆 The highest demand is for **{top_product}** with total quantity {top_demand}.")
+        else:
+            st.warning("Couldn't find 'Product Name' or 'Quantity' column to compute demand insights.")
 
             fig, ax = plt.subplots()
             ax.scatter(y_test, y_pred, alpha=0.7, color='purple')
