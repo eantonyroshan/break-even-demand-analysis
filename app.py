@@ -29,8 +29,8 @@ if break_even_file is not None:
         st.dataframe(df)
 
         fixed_cost = df['Fixed_Cost'].iloc[0]
-        variable_cost = df['Variable_Cost_per_Unit'].iloc[0]
-        selling_price = df['Selling_Price_per_Unit'].iloc[0]
+        variable_cost = df['Variable_Cost'].iloc[0]
+        selling_price = df['Selling_Price'].iloc[0]
 
         break_even_units = fixed_cost / (selling_price - variable_cost)
         st.write(f"**Break-even Point:** {break_even_units:.2f} units")
@@ -68,7 +68,7 @@ st.header("🧠 AI-based Demand Forecasting")
 
 if demand_file is not None:
     try:
-        demand_df = pd.read_csv(demand_file)
+        demand_df = pd.read_csv(demand_file, encoding='latin1')
         st.subheader("Uploaded Demand Dataset")
         st.dataframe(demand_df.head())
 
