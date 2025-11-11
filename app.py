@@ -8,7 +8,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 
 st.set_page_config(page_title="Break-even & Demand Forecast Tool", layout="wide")
 
-st.title("Break-even Analysis &  AI-based Demand Forecasting Tool - IE Project")
+st.title("📊 Break-even Analysis & 🧠 AI-based Demand Forecasting Tool")
 st.markdown("Upload your data files below to perform break-even and demand analysis.")
 
 # --- SIDEBAR ---
@@ -42,14 +42,21 @@ if break_even_file is not None:
         fig, ax = plt.subplots()
         ax.plot(units, total_cost, label='Total Cost', color='red')
         ax.plot(units, total_revenue, label='Total Revenue', color='green')
-        ax.axvline(break_even_units, color='blue', linestyle='--', label='Break-even Point')
+        ax.axvline(break_even_units, color='blue', linestyle='--', label=f'Break-even Point ({break_even_units:.2f} units)')
         ax.set_xlabel("Units Sold")
         ax.set_ylabel("Cost / Revenue")
         ax.set_title("Break-even Chart")
         ax.legend()
         st.pyplot(fig)
 
-        st.info(f"At less than {break_even_units:.2f} units, company runs **in loss**. Beyond that, it makes **profit.**")
+        # Summary text below the graph
+        st.markdown("### 📈 Break-even Summary")
+        st.info(f"At approximately **{break_even_units:.2f} units**, the company reaches its break-even point.")
+
+        if break_even_units < units[-1] / 2:
+            st.success(f"✅ Beyond {break_even_units:.2f} units, **the company will operate in profit.**")
+        else:
+            st.warning(f"⚠️ The break-even point ({break_even_units:.2f} units) lies beyond the expected range — **the company may face loss** in current production levels.")
 
     except Exception as e:
         st.error(f"Error reading break-even data: {e}")
@@ -61,7 +68,7 @@ st.header("🧠 AI-based Demand Forecasting")
 
 if demand_file is not None:
     try:
-        demand_df = pd.read_csv(demand_file,encoding='latin1')
+        demand_df = pd.read_csv(demand_file)
         st.subheader("Uploaded Demand Dataset")
         st.dataframe(demand_df.head())
 
@@ -88,36 +95,20 @@ if demand_file is not None:
 
             st.write(f"**R² Score:** {r2:.3f}")
             st.write(f"**RMSE:** {rmse:.3f}")
-            st.subheader("📊 Product Demand Insights")
-
-# Check if necessary columns exist
-if 'Product Name' in demand_df.columns and 'Quantity' in demand_df.columns:
-    demand_summary = (
-        demand_df.groupby('Product Name')['Quantity']
-        .sum()
-        .sort_values(ascending=False)
-        .head(5)
-        .reset_index()
-    )
-
-    st.write("### 🔝 Top 5 High-Demand Products")
-    st.dataframe(demand_summary)
-
-    top_product = demand_summary.iloc[0]['Product Name']
-    top_demand = demand_summary.iloc[0]['Quantity']
-
-    st.success(f"🏆 The highest demand is for **{top_product}** with total quantity {top_demand}.")
-else:
-    st.warning("Couldn't find 'Product Name' or 'Quantity' column to compute demand insights.")
 
             fig, ax = plt.subplots()
             ax.scatter(y_test, y_pred, alpha=0.7, color='purple')
+            ax.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'k--', lw=2)
             ax.set_xlabel("Actual Demand")
             ax.set_ylabel("Predicted Demand")
             ax.set_title("Actual vs Predicted Demand")
             st.pyplot(fig)
 
-            st.success("AI model successfully trained and tested!")
+            # Show highest demand prediction insight
+            highest_demand_index = np.argmax(y_pred)
+            st.markdown("### 🔍 AI Insights")
+            st.success(f"Highest predicted demand occurs when **{x_col} = {X_test[highest_demand_index][0]:.2f}**, "
+                       f"with a predicted demand of **{y_pred[highest_demand_index]:.2f} units.**")
 
     except Exception as e:
         st.error(f"Error during AI demand modeling: {e}")
