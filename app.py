@@ -69,7 +69,7 @@ demand_file = st.file_uploader("Upload Demand Dataset (CSV)", type=["csv"])
 
 if demand_file is not None:
     try:
-        data = pd.read_csv(demand_file)
+        data = pd.read_csv(demand_file, encoding='latin1')
         st.write("### Preview of Demand Dataset")
         st.dataframe(data.head())
 
