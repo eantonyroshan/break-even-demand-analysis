@@ -61,7 +61,7 @@ st.header("🧠 AI-based Demand Forecasting")
 
 if demand_file is not None:
     try:
-        demand_df = pd.read_csv(demand_file)
+        demand_df = pd.read_csv(demand_file, encoding='latin1')
         st.subheader("Uploaded Demand Dataset")
         st.dataframe(demand_df.head())
 
