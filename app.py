@@ -20,7 +20,7 @@ demand_file = st.sidebar.file_uploader("Upload Demand dataset (CSV)", type=['csv
 # ---------------------------------------------
 # BREAK-EVEN ANALYSIS
 # ---------------------------------------------
-st.header("📉 Break-even Analysis")
+st.header("Break-even Analysis")
 
 if break_even_file is not None:
     try:
@@ -72,7 +72,7 @@ else:
 # ---------------------------------------------
 # AI-BASED DEMAND FORECASTING
 # ---------------------------------------------
-st.header("🧠 AI-based Demand Forecasting")
+st.header("AI-based Demand Forecasting")
 
 if demand_file is not None:
     try:
